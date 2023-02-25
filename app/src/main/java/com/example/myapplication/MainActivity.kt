@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,9 +27,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun guardardatos(){
-        val preferences = getSharedPreferences("credentials", Context.MODE_PRIVATE)
-        var editor = preferences.edit()
+        val credenciales = getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        var editor = credenciales.edit()
         editor.putString("usuario", usuario.text.toString())
         editor.commit()
+
+        val Menu = Intent(this, menu::class.java)
+        startActivity(Menu)
     }
 }
