@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,11 +22,16 @@ class MainActivity : AppCompatActivity() {
         ingresar = findViewById(R.id.btnIniciar)
 
         ingresar.setOnClickListener {
-            this.guardardatos()
+            if(usuario.text.toString() == "" || password.text.toString() == "")
+            {
+                Toast.makeText(applicationContext, "Ingrese sus credenciales", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            this.guardarDatos()
         }
     }
 
-    private fun guardardatos(){
+    private fun guardarDatos(){
         val credenciales = getSharedPreferences("credentials", Context.MODE_PRIVATE)
         var editor = credenciales.edit()
         editor.putString("usuario", usuario.text.toString())

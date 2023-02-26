@@ -12,6 +12,7 @@ class menu : AppCompatActivity() {
     lateinit var lblUsuario : TextView
     lateinit var btnEjercicio1 : Button
     lateinit var btnEjercicio2 : Button
+    lateinit var btnCerrar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,8 @@ class menu : AppCompatActivity() {
         lblUsuario = findViewById(R.id.lblUsuario)
         btnEjercicio1 = findViewById(R.id.btnEjercicio1)
         btnEjercicio2 = findViewById(R.id.btnEjercicio2)
-
+        btnCerrar = findViewById(R.id.btnCerrarSesion)
+        
         this.getName()
 
         btnEjercicio1.setOnClickListener {
@@ -31,6 +33,15 @@ class menu : AppCompatActivity() {
         btnEjercicio2.setOnClickListener {
             val ejercicio2View = Intent(this, EcuacionActivity::class.java)
             startActivity(ejercicio2View)
+        }
+
+        btnCerrar.setOnClickListener {
+            val credenciales = getSharedPreferences("credentials", Context.MODE_PRIVATE)
+            var editor = credenciales.edit()
+            editor.clear()
+
+            val loginView = Intent(this, MainActivity::class.java)
+            startActivity(loginView)
         }
     }
 
