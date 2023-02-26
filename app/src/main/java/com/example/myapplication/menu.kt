@@ -27,6 +27,11 @@ class menu : AppCompatActivity() {
             val ejercicio1View = Intent(this, Ejercicio1::class.java)
             startActivity(ejercicio1View)
         }
+
+        btnEjercicio2.setOnClickListener {
+            val ejercicio2View = Intent(this, EcuacionActivity::class.java)
+            startActivity(ejercicio2View)
+        }
     }
 
     private fun getName() {
