@@ -21,18 +21,19 @@ class menu : AppCompatActivity() {
         btnEjercicio1 = findViewById(R.id.btnEjercicio1)
         btnEjercicio2 = findViewById(R.id.btnEjercicio2)
 
-        this.setNameOnTextView()
+        this.getName()
 
         btnEjercicio1.setOnClickListener {
-            val ejercicio1View = Intent(this, Ejercicio2::class.java)
+            val ejercicio1View = Intent(this, Ejercicio1::class.java)
             startActivity(ejercicio1View)
         }
     }
 
-    private fun setNameOnTextView() {
+    private fun getName() {
         val credenciales = getSharedPreferences("credentials", Context.MODE_PRIVATE)
         val usuario = credenciales.getString("usuario", "Name")
 
         lblUsuario.setText("Bienvenido ${usuario}, selecciona un ejercicio")
+        this.setTitle("Desafio 1 - ${usuario}")
     }
 }
