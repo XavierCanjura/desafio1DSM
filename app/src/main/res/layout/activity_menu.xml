@@ -40,4 +40,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEjercicio1"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnCerrarSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="100dp"
+        android:text="Cerrar Sesion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEjercicio2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

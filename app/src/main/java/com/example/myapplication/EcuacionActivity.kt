@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import kotlin.math.sqrt
 
 class EcuacionActivity : AppCompatActivity() {
@@ -15,6 +16,9 @@ class EcuacionActivity : AppCompatActivity() {
     private lateinit var editTextC: EditText
     private lateinit var tvresultado: TextView
     private lateinit var btCalcular: Button
+
+    // Instancia a Validations
+    val validaciones = Validations()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +33,16 @@ class EcuacionActivity : AppCompatActivity() {
         btCalcular = findViewById(R.id.btCalcular)
 
         btCalcular.setOnClickListener{
-            val ecuacion =   editTextA.text.toString() +" "+  editTextB.text.toString() +" "+  editTextC.text.toString()
-            val resultado = calcularResultado(ecuacion)
-            tvresultado.text = resultado
+            if(!validaciones.validateString(editTextA.text.toString()) || !validaciones.validateString(editTextB.text.toString()) || !validaciones.validateString(editTextC.text.toString()))
+            {
+                Toast.makeText(applicationContext, "No dejar campos vacios", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val ecuacion =   editTextA.text.toString() +" "+  editTextB.text.toString() +" "+  editTextC.text.toString()
+                val resultado = calcularResultado(ecuacion)
+                tvresultado.text = resultado
+            }
+
         }
 
 
