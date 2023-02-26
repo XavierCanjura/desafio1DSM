@@ -39,7 +39,7 @@ class EcuacionActivity : AppCompatActivity() {
         val numbers = regex.replace(ecuacion, " ").trim().split(" ").map { it.toDouble() }
 
         if (numbers.size != 3) {
-            return "La ecuación debe ser de la forma ax^2 + bx + c = 0"
+            return "La ecuación debe ser de la siguinte forma ax^2 + bx + c = 0"
         }
 
         val a = numbers[0]
@@ -49,7 +49,7 @@ class EcuacionActivity : AppCompatActivity() {
         val discriminant = b * b - 4 * a * c
 
         if (discriminant < 0) {
-            return "La ecuación no tiene soluciones reales"
+            return "Esta ecuación no tiene soluciones reales"
         }
 
         val x1 = (-b + sqrt(discriminant)) / (2 * a)
