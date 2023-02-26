@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -19,6 +20,8 @@ class EcuacionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ecuacion)
 
+        getName()
+
         editTextA = findViewById(R.id.editTextA)
         editTextB = findViewById(R.id.editTextB)
         editTextC = findViewById(R.id.editTextC)
@@ -30,9 +33,15 @@ class EcuacionActivity : AppCompatActivity() {
             val resultado = calcularResultado(ecuacion)
             tvresultado.text = resultado
         }
+
+
     }
 
-
+    private fun getName() {
+        val credenciales = getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        val usuario = credenciales.getString("usuario", "Name")
+        this.setTitle("Desafio 1 - ${usuario}")
+    }
 
     private fun calcularResultado(ecuacion: String): String {
         val regex = Regex("[^0-9\\-]+")
