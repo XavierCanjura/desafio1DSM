@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -12,7 +11,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 
 class Ejercicio1 : AppCompatActivity() {
 
-    var meses = arrayOf("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+    var meses = arrayOf("Seleccione el mes de venta", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
 
     lateinit var txtNombre: EditText
     lateinit var txtCodigo: EditText
@@ -22,8 +21,11 @@ class Ejercicio1 : AppCompatActivity() {
 
     var ventas: Int = 0
     var nombre: String = ""
-    var mesVenta: String = ""
+    var mesVenta: Int = 0
     var codigo: String = ""
+
+    // Instancia a Validations
+    val validaciones = Validations()
 
     data class Result(val comision: Int, val porcentaje: Int)
 
@@ -47,24 +49,39 @@ class Ejercicio1 : AppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                mesVenta = meses[position]
+                mesVenta = position
             }
         }
 
         btnCalcular.setOnClickListener {
-            this.getInformacion()
-            var ( comision, porcentaje ) = this.calcularComision(ventas)
+            if(!validaciones.validateString(txtNombre.text.toString()))
+            {
+                Toast.makeText(applicationContext, "Ingrese el nombre completo", Toast.LENGTH_SHORT).show()
+            }
+            else if(!validaciones.validateString(txtCodigo.text.toString())){
+                Toast.makeText(applicationContext, "Ingrese el codigo de empledo", Toast.LENGTH_SHORT).show()
+            }
+            else if(!validaciones.validateString(txtVentas.text.toString()) && !validaciones.ValidateInteger(txtVentas.text.toString().toInt())){
+                Toast.makeText(applicationContext, "Ingrese la cantidad de ventas", Toast.LENGTH_SHORT).show()
+            }
+            else if (mesVenta == 0){
+                Toast.makeText(applicationContext, "Seleccione el mes de venta", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                this.getInformacion()
+                var ( comision, porcentaje ) = this.calcularComision(ventas)
+                var resultView = Intent(this, ResultEjercicio1::class.java).apply {
+                    putExtra("nombre", nombre)
+                    putExtra("codigo", codigo)
+                    putExtra("ventas", ventas)
+                    putExtra("comision", comision)
+                    putExtra("porcentaje", porcentaje)
+                    putExtra("mes", meses[mesVenta])
+                }
 
-            var resultView = Intent(this, ResultEjercicio1::class.java).apply {
-                putExtra("nombre", nombre)
-                putExtra("codigo", codigo)
-                putExtra("ventas", ventas)
-                putExtra("comision", comision)
-                putExtra("porcentaje", porcentaje)
-                putExtra("mes", mesVenta)
+                startActivity(resultView)
             }
 
-            startActivity(resultView)
         }
 
     }
