@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -16,6 +15,7 @@ class EcuacionActivity : AppCompatActivity() {
     private lateinit var editTextC: EditText
     private lateinit var tvresultado: TextView
     private lateinit var btCalcular: Button
+    private lateinit var btLimpiar: Button
 
     // Instancia a Validations
     val validaciones = Validations()
@@ -31,6 +31,15 @@ class EcuacionActivity : AppCompatActivity() {
         editTextC = findViewById(R.id.editTextC)
         tvresultado = findViewById(R.id.tvresultado)
         btCalcular = findViewById(R.id.btCalcular)
+        btLimpiar = findViewById(R.id.btLimpiar)
+
+        btLimpiar.setOnClickListener{
+            editTextA.setText("")
+            editTextB.setText("")
+            editTextC.setText("")
+            tvresultado.setText("")
+        }
+
 
         btCalcular.setOnClickListener{
             if(!validaciones.validateString(editTextA.text.toString()) || !validaciones.validateString(editTextB.text.toString()) || !validaciones.validateString(editTextC.text.toString()))
@@ -42,10 +51,7 @@ class EcuacionActivity : AppCompatActivity() {
                 val resultado = calcularResultado(ecuacion)
                 tvresultado.text = resultado
             }
-
         }
-
-
     }
 
     private fun getName() {
@@ -55,30 +61,26 @@ class EcuacionActivity : AppCompatActivity() {
     }
 
     private fun calcularResultado(ecuacion: String): String {
-        val regex = Regex("[^0-9\\-]+")
-        val numbers = regex.replace(ecuacion, " ").trim().split(" ").map { it.toDouble() }
+        val regex = Regex("[^0-9\\-.]+")
+        val numero = regex.replace(ecuacion, " ").trim().split(" ").map { it.toDouble() }
 
-        if (numbers.size != 3) {
-            return "La ecuación debe ser de la siguinte forma ax^2 + bx + c = 0"
+        if (numero.size != 3) {
+            return "La ecuación debe ser de la siguiente forma ax^2 + bx + c = 0"
         }
 
-        val a = numbers[0]
-        val b = numbers[1]
-        val c = numbers[2]
+        val a = numero[0]
+        val b = numero[1]
+        val c = numero[2]
 
-        val discriminant = b * b - 4 * a * c
+        val valorRaiz = b * b - 4 * a * c
 
-        if (discriminant < 0) {
+        if (valorRaiz < 0) {
             return "Esta ecuación no tiene soluciones reales"
         }
 
-        val x1 = (-b + sqrt(discriminant)) / (2 * a)
-        val x2 = (-b - sqrt(discriminant)) / (2 * a)
+        val x1 = (-b + sqrt(valorRaiz)) / (2 * a)
+        val x2 = (-b - sqrt(valorRaiz)) / (2 * a)
 
-        return "\nx1 = $x1, \n x2 = $x2"
+        return "\nx1 = $x1,\n x2 = $x2"
     }
-}
-
-private fun View.setOnClickListener() {
-    TODO("Not yet implemented")
 }
